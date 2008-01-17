@@ -1,4 +1,4 @@
-New file template for developers
+#summary New file template for developers
 
 = Page Template =
 This is how each page should begin. Substitute the relevant fields with what they should be, FileName should be the name of the new file, YourName should be your name, so that credit goes where credit is due, and YourEmail should be your email address incase anyone has any questions.
