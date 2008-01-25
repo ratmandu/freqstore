@@ -1,0 +1,91 @@
+/*
+ * FreqStore - style.css
+ * Copyright (C) 2008 Justin Richards
+ * Author - Justin Richards <ratmandu@gmail.com>
+ * Released under the GNU General Public License v3
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+ 
+@CHARSET "UTF-8";
+
+body {
+	background-color: #296016;
+	margin: 0px;
+}
+
+#container {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	background-color: #296016;
+}
+
+.topbox {
+	margin: 0px;
+	background-color: #296016;
+	background-image: url("../images/topbg.gif");
+	background-repeat: repeat-x;
+	width: 100%;
+	height: 100px;
+}	
+
+.leftmenu {
+	margin-left: 40px;
+	margin-top: 10px;
+	width: 110px;
+	padding: 8px;
+	color: #FF88FF;
+	background-color: #205010;
+	border: 1px solid #008800;
+	float: left;
+}
+
+.leftmenu li {
+	list-style: none;
+}
+
+.leftmenu a {
+	color: #080;
+}
+
+.leftmenu a:hover {
+	color: #0A0;
+}
+
+.errorbox {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	width: 600px;
+	padding: 8px;
+	color: #600;
+	text-align: center;
+	font-weight: bold;
+	font-size: 18;
+	background-color: #205010;
+	border: 1px solid #660000;
+}
+
+.contentbox {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	width: 600px;
+	padding: 8px;
+	color: #000;
+	background-color: #205010;
+	border: 1px solid #008800;
+}
