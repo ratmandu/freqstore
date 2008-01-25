@@ -2,7 +2,6 @@
 /*
  * FreqStore - functions.php
  * Copyright (C) 2008 Justin Richards
- * Author - Justin Richards <ratmandu@gmail.com>
  * Released under the GNU General Public License v3
  * 
  * This program is free software: you can redistribute it and/or modify
