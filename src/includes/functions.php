@@ -159,6 +159,8 @@ class buildPage {
 
 class sql {
 	public $dbc;
+	public $result;
+	
 	function sql() {
 		$this->dbc = mysql_connect(DB_HOST, DB_USER, DB_PASS);
 		
@@ -172,6 +174,21 @@ class sql {
 	function select($db) {
 		if (! mysql_select_db($db, $this->dbc)) {
 			return 0;
+		}
+	}
+	
+	function query($query) {
+		$this->result = mysql_query($query, $this->dbc);
+		
+		if ($this->result) {
+			$i = 0;
+			while ($row = mysql_fetch_object($this->result)) {
+				$newRow[$i] = $row;
+				$i++;
+			}
+			
+			mysql_free_result($this->result);
+			return $newRow;
 		}
 	}
 }
