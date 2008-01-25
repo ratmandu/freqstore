@@ -158,7 +158,22 @@ class buildPage {
 }
 
 class sql {
+	public $dbc;
+	function sql() {
+		$this->dbc = mysql_connect(DB_HOST, DB_USER, DB_PASS);
+		
+		if (! $this->dbc) {
+			return 0;
+		}
+		
+		$this->select(DB_NAME);
+	}
 	
+	function select($db) {
+		if (! mysql_select_db($db, $this->dbc)) {
+			return 0;
+		}
+	}
 }
 
 
