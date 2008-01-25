@@ -23,12 +23,16 @@
 include("includes/config.php");
 include("includes/functions.php");
 
+$pagecontent = "This is some content... <br>\n";
+$pagecontent .= "<b>This is another line, which is bold!</b>";
+
 $page = new buildPage();
 $page->beginPage("Test Title");
 $page->addLeftMenu();
 $page->addError("This is one huge error... But its small enough that we can go on.");
 $page->addError("It's Dead Jim.");
 $page->showErrors();
+$page->addContent($pagecontent);
 $page->addFooter();
 $page->printPage();
 
