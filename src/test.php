@@ -26,11 +26,8 @@ $sql = new sql();
 $row = $sql->query("SELECT * FROM users");
 $pagecontent = "Username: " . $row[0]->username . "<br>";
 $pagecontent .= "Email: " . $row[0]->email . "<br>";
-$pagecontent .="Username: " . $row[1]->username . "<br>";
-$pagecontent .= "Email: " . $row[1]->username . "<br>";
 
-$page = new buildPage();
-$page->beginPage("Test Title");
+$page = new buildPage("Test Title");
 $page->addLeftMenu();
 $page->addError("This is one huge error... But its small enough that we can go on.");
 $page->addError("It's Dead Jim.");

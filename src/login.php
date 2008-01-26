@@ -22,6 +22,33 @@
 require("includes/config.php");
 require("includes/functions.php");
 
+$pagecontent = <<<END1
+<center>
+	<form method='post' action='login.php'>
+		
+		<table>
+			<tr>
+				<td>Username:</td>
+				<td><input type='text' name='user' size='15'></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type='password' name='pass' size='15'></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type='submit' name='submit' value='Submit'></td>
+			</tr>
+		</table>
+	</form>
+</center>
+END1;
 
+$page = new buildPage("Login Page");
+$page->addLeftMenu();
+$page->showErrors();
+$page->addContent($pagecontent);
+$page->addFooter();
+$page->printPage();
 
 ?>
