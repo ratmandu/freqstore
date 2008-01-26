@@ -22,6 +22,8 @@
 require("includes/config.php");
 require("includes/functions.php");
 
+
+
 $pagecontent = <<<END1
 <center>
 	<form method='post' action='login.php'>
