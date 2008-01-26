@@ -47,9 +47,9 @@ body {
 	margin-top: 10px;
 	width: 110px;
 	padding: 8px;
-	color: #FF88FF;
+	color: #00DB00;
 	background-color: #205010;
-	border: 1px solid #008800;
+	border: 1px solid #00DB00;
 	float: left;
 }
 
@@ -58,11 +58,11 @@ body {
 }
 
 .leftmenu a {
-	color: #080;
+	color: #00DB00;
 }
 
 .leftmenu a:hover {
-	color: #0A0;
+	color: #080;
 }
 
 .errorbox {
@@ -85,7 +85,13 @@ body {
 	margin-top: 10px;
 	width: 600px;
 	padding: 8px;
-	color: #000;
+	color: #00DB00;
 	background-color: #205010;
-	border: 1px solid #008800;
+	border: 1px solid #00DB00;
+}
+
+form input {
+	color: #00DB00;
+	background-color: #205010;
+	border: 1px solid #00DB00;
 }

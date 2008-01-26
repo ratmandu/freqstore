@@ -61,6 +61,18 @@ class buildPage {
 	public $errors = array(); 
 	
 	/**
+	 * Class Contructor. 
+	 * 
+	 * Blanks out the pagetext variable and starts the html page.
+	 *
+	 * @param string $title Page title
+	 */
+	function buildPage($title) {
+		$this->pagetext = NULL;
+		$this->beginPage($title);
+	}
+	
+	/**
 	 * Starts the html page off, and sets the page title
 	 *
 	 * @param string $title title of page created
@@ -157,10 +169,29 @@ class buildPage {
 	
 }
 
+/**
+ * MySQL communication stuff
+ *
+ */
 class sql {
+	/**
+	 * database connection resource
+	 *
+	 * @var mixed
+	 */
 	public $dbc;
+	/**
+	 * holds query results
+	 *
+	 * @var string
+	 */
 	public $result;
 	
+	/**
+	 * Class constructor.
+	 * 
+	 * Connects to the database, then calls select which selects the right database.
+	 */
 	function sql() {
 		$this->dbc = mysql_connect(DB_HOST, DB_USER, DB_PASS);
 		
@@ -171,12 +202,33 @@ class sql {
 		$this->select(DB_NAME);
 	}
 	
+	/**
+	 * Selects database
+	 *
+	 * @param string $db Name of database to select
+	 * @return bool Returns false (zero) is there was a problem selecting the database.
+	 */
 	function select($db) {
 		if (! mysql_select_db($db, $this->dbc)) {
 			return 0;
 		}
 	}
 	
+	/**
+	 * Executes a query on the database
+	 * 
+	 * Use it like so:
+	 * <code>
+	 * <?php
+	 * $sql = new sql();
+	 * $row = $sql->query("SELECT * FROM users");
+	 * // will show the username of the 4th result in the database
+	 * echo $row[4]->username;
+	 * ?>
+	 *
+	 * @param string $query Query to execute on the database
+	 * @return mixed returns array/objects as $newrow[rownumber]->fieldname
+	 */
 	function query($query) {
 		$this->result = mysql_query($query, $this->dbc);
 		
