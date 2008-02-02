@@ -243,6 +243,21 @@ class sql {
 			return $newRow;
 		}
 	}
+	
+	function sanitize($text) {
+		if (get_magic_quotes_gpc()) {
+			$text = stripslashes($text);
+		}
+	
+		if (function_exists("mysql_real_escape_string")) {
+			$text = mysql_real_escape_string($text);
+		} else {
+			$text = addslashes($text);
+		}
+		
+		return $text;
+	}
+
 }
 
 

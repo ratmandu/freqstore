@@ -22,7 +22,17 @@
 require("includes/config.php");
 require("includes/functions.php");
 
-
+if (isset($_POST['submit'])) {
+	// Process the login.
+	$sql = new sql();
+	
+	$username = $sql->sanitize($_POST['user']);
+	$password = $sql->sanitize($_POST['pass']);
+	$password = sha1($password);
+	
+	echo $username . " " . $password;
+	die();
+}
 
 $pagecontent = <<<END1
 <center>
