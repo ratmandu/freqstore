@@ -48,7 +48,7 @@ body {
 	padding: 8px;
 	color: #00DB00;
 	background-color: #205010;
-	border: 1px solid #00DB00;
+	border: 1px solid #0A0;
 	float: left;
 }
 
@@ -61,7 +61,7 @@ body {
 }
 
 .leftmenu a:hover {
-	color: #080;
+	color: #0A0;
 }
 
 .errorbox {
@@ -75,7 +75,7 @@ body {
 	font-weight: bold;
 	font-size: 18;
 	background-color: #205010;
-	border: 1px solid #660000;
+	border: 1px solid #0A0;
 }
 
 .contentbox {
@@ -86,11 +86,11 @@ body {
 	padding: 8px;
 	color: #00DB00;
 	background-color: #205010;
-	border: 1px solid #00DB00;
+	border: 1px solid #0A0;
 }
 
 form input {
 	color: #00DB00;
 	background-color: #205010;
-	border: 1px solid #00DB00;
+	border: 1px solid #0A0;
 }
