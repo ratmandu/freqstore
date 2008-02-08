@@ -18,27 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
- 
-/**
- * sanitizeSQL takes a string, and outputs an SQL safe string to 
- * help protect against SQL injection.
- * 
- * @param string $text
- * @return string
- */
-function sanitizeSQL($text) {
-	if (get_magic_quotes_gpc()) {
-		$text = stripslashes($text);
-	}
-	
-	if (function_exists("mysql_real_escape_string")) {
-		$text = mysql_real_escape_string($text);
-	} else {
-		$text = addslashes($text);
-	}
-	
-	return $text;
-}
 
 
 /**
@@ -244,6 +223,12 @@ class sql {
 		}
 	}
 	
+	/**
+	 * Sanitizes information to pass in an SQL query to help prevent SQL injection
+	 *
+	 * @param string $text String to sanitize
+	 * @return string sanitized text
+	 */
 	function sanitize($text) {
 		if (get_magic_quotes_gpc()) {
 			$text = stripslashes($text);
