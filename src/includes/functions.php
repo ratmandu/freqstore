@@ -40,6 +40,13 @@ class buildPage {
 	public $errors = array(); 
 	
 	/**
+	 * Array of messages, if any.
+	 *
+	 * @var string
+	 */
+	public $messages = array();
+	
+	/**
 	 * Class Contructor. 
 	 * 
 	 * Blanks out the pagetext variable and starts the html page.
@@ -90,6 +97,7 @@ class buildPage {
 			$this->pagetext .= "<li><a href='logout.php'>Log Out</a></li>\n";
 		} else {
 			$this->pagetext .= "<li><a href='login.php'>Log In</a></li>\n";
+			$this->pagetext .= "<li><a href='register.php'>Register</a></li>\n";
 		}
 		$this->pagetext .= "\n	</div>\n";
 	}
@@ -107,6 +115,18 @@ class buildPage {
 	}
 	
 	/**
+	 * Adds a message to be shown to the user. Not an error.
+	 *
+	 * @param string $messagetext What message to show to the user
+	 */
+	function addMessage($messagetext) {
+		$messageary = $this->messages;
+		$messagecount = count($messageary);
+		$messagecount++;
+		$this->messages[$messagecount] .= $messagetext;
+	}
+	
+	/**
 	 * Prints the errors out to the screen.
 	 *
 	 */
@@ -117,6 +137,21 @@ class buildPage {
 				$this->pagetext .= "\n	<div class='errorbox'>\n";
 				$this->pagetext .= $this->errors[$i];
 				$this->pagetext .= "\n	</div>\n";
+			}
+		}
+	}
+	
+	/**
+	 * Prints the messages to the screen
+	 *
+	 */
+	function showMessages() {
+		$messagecount = count($this->messages);
+		if ($messagecount >= 1) {
+			for ($i = 1; $i<= $messagecount; $i++) {
+				$this->pagetext .= "\n<div class='messagebox'>\n";
+				$this->pagetext .= $this->messages[$i];
+				$this->pagetext .= "\n</div>\n";
 			}
 		}
 	}
@@ -230,6 +265,17 @@ class sql {
 		}
 	}
 	
+	function insert($query) {
+		$this->result = mysql_query($query, $this->dbc);
+		
+		if ($this->result) {
+			$this->result = mysql_insert_id($this->dbc);
+			return $this->result;
+		} else {
+			return 0;
+		}
+	}
+	
 	/**
 	 * Sanitizes information to pass in an SQL query to help prevent SQL injection
 	 *
@@ -252,6 +298,11 @@ class sql {
 
 }
 
+
+/**
+ * Handles logins, logouts, and check to see if user is logged in
+ *
+ */
 class login {
 	public $userid;
 	public $username;
@@ -262,23 +313,44 @@ class login {
 	public $actcode;
 	public $userlevel;
 	
+	/**
+	 * Starts session automatically
+	 *
+	 * @return login
+	 */
 	function login() {
 		session_start();
 	}
 	
+	/**
+	 * Checks to see if user is logged in, by checking for the userid in the session.
+	 *
+	 * @return mixed If user is logged in, returns userid, otherwise it returns false.
+	 */
 	function checkLogin() {
 		if (isset($_SESSION['userid'])) {
-			return $_SESSION['userlevel'];
+			return $_SESSION['userid'];
 		} else {
 			return false;
 		}
 	}
 	
+	/**
+	 * Logs user out, by clearing out and destroying the session.
+	 *
+	 */
 	function logout() {
 		$_SESSION = array();
 		session_destroy();
 	}
 	
+	/**
+	 * Processes a login.
+	 *
+	 * @param string $user Username
+	 * @param string $pass Password
+	 * @return bool Returns false if user is disabled, unactivated, or if the login was invalid.
+	 */
 	function process($user, $pass) {		
 		$sql = new sql();
 		$this->username = $sql->sanitize($user);

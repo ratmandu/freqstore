@@ -52,7 +52,7 @@ $pagecontent = <<<END1
 				<td><input type='password' name='pass' size='15'></td>
 			</tr>
 			<tr>
-				<td></td>
+				<td><a href='register.php'> Register</a></td>
 				<td><input type='submit' name='submit' value='Submit'></td>
 			</tr>
 		</table>
@@ -68,6 +68,7 @@ if (isset($_GET['error'])) {
 
 $page->addLeftMenu();
 $page->showErrors();
+$page->showMessages();
 $page->addContent($pagecontent);
 $page->addFooter();
 $page->printPage();

@@ -26,8 +26,18 @@ $login = new login();
 
 
 $page = new buildPage("Home");
+
+if (isset($_GET['thanks'])) {
+	$page->addMessage("Registration Complete! <br> Thanks!");
+}
+
+if (isset($_GET['loggedout'])) {
+	$page->addMessage("You were logged out sucessfully!");
+}
+
 $page->addLeftMenu();
 $page->showErrors();
+$page->showMessages();
 $page->addContent($pagecontent);
 $page->addFooter();
 $page->printPage();

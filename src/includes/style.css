@@ -64,6 +64,14 @@ body {
 	color: #0A0;
 }
 
+a {
+	color: #00DB00;
+}
+
+a:hover {
+	color: #0A0;
+}
+
 .errorbox {
 	margin-left: auto;
 	margin-right: auto;
@@ -71,6 +79,20 @@ body {
 	width: 600px;
 	padding: 8px;
 	color: #600;
+	text-align: center;
+	font-weight: bold;
+	font-size: 18;
+	background-color: #205010;
+	border: 1px solid #0A0;
+}
+
+.messagebox {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	width: 600px;
+	padding: 8px;
+	color: #0C0;
 	text-align: center;
 	font-weight: bold;
 	font-size: 18;
