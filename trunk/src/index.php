@@ -19,6 +19,18 @@
  * 
  */
  
+include("includes/config.php");
+include("includes/functions.php");
+
+$login = new login();
+
+
+$page = new buildPage("Home");
+$page->addLeftMenu();
+$page->showErrors();
+$page->addContent($pagecontent);
+$page->addFooter();
+$page->printPage();
 
 
 ?>
