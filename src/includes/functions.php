@@ -75,16 +75,21 @@ class buildPage {
 	 *
 	 * @param bool $loggedin decides weather or not to show features for logged in users
 	 */
-	function addLeftMenu($loggedin = false) {
+	function addLeftMenu() {
+		if (isset($_SESSION['userid'])) {
+			$loggedin = true;
+		} else {
+			$loggedin = false;
+		}
+		
 		$this->pagetext .= "	<div class='leftmenu'>\n";
 		$this->pagetext .= "
-	<li><a href='#'>Home</a></li>
-	<li><a href='#'>Link 1</a></li>
-	<li><a href='#'>Link 2</a></li>
-	<li><a href='#'>Link 3</a></li>
-	<li><a href='#'>Link 4</a></li>";
+	<li><a href='index.php'>Home</a></li>
+	";
 		if ($loggedin) {
-			$this->pagetext .= "User is Logged In";
+			$this->pagetext .= "<li><a href='logout.php'>Log Out</a></li>\n";
+		} else {
+			$this->pagetext .= "<li><a href='login.php'>Log In</a></li>\n";
 		}
 		$this->pagetext .= "\n	</div>\n";
 	}
@@ -220,6 +225,8 @@ class sql {
 			
 			mysql_free_result($this->result);
 			return $newRow;
+		} else {
+			return 0;
 		}
 	}
 	
@@ -245,6 +252,66 @@ class sql {
 
 }
 
+class login {
+	public $userid;
+	public $username;
+	public $passhash;
+	public $email;
+	public $disabled;
+	public $activated;
+	public $actcode;
+	public $userlevel;
+	
+	function login() {
+		session_start();
+	}
+	
+	function checkLogin() {
+		if (isset($_SESSION['userid'])) {
+			return $_SESSION['userlevel'];
+		} else {
+			return false;
+		}
+	}
+	
+	function logout() {
+		$_SESSION = array();
+		session_destroy();
+	}
+	
+	function process($user, $pass) {		
+		$sql = new sql();
+		$this->username = $sql->sanitize($user);
+		$this->passhash = $pass;
+		
+		$row = $sql->query("SELECT * FROM users WHERE username = '$this->username' AND password = '$this->passhash'");
+		
+		if ($row == 0) {
+			return false;
+		} else {
+			$this->userid = $row[0]->userid;
+			$this->email = $row[0]->email;
+			$this->disabled = $row[0]->disabled;
+			$this->activated = $row[0]->activated;
+			$this->actcode = $row[0]->actcode;
+			$this->userlevel = $row[0]->userlevel;
+			
+			if ($this->disabled == "1") {
+				return false;
+			}
+			
+			if ($this->activated == "0") {
+				return false;
+			}
+			
+			$_SESSION['userid'] = $this->userid;
+			$_SESSION['username'] = $this->username;
+			$_SESSION['email'] = $this->email;
+			$_SESSION['userlevel'] = $this->userlevel;
+			return true;
+		}
+	}
+}
 
 
 ?>

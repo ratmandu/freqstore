@@ -23,16 +23,20 @@ require("includes/config.php");
 require("includes/functions.php");
 
 if (isset($_POST['submit'])) {
-	// Process the login.
-	$sql = new sql();
-	
-	$username = $sql->sanitize($_POST['user']);
-	$password = $sql->sanitize($_POST['pass']);
+	// Process the login.	
+	$username = $_POST['user'];
+	$password = $_POST['pass'];
 	$password = sha1($password);
 	
-	echo $username . " " . $password;
+	$login = new login();
+	if ($login->process($username, $password)) {
+		header("Location: index.php");
+	} else {
+		header("Location: login.php?error=1");
+	}
 	die();
 }
+
 
 $pagecontent = <<<END1
 <center>
@@ -57,6 +61,11 @@ $pagecontent = <<<END1
 END1;
 
 $page = new buildPage("Login Page");
+
+if (isset($_GET['error'])) {
+	$page->addError("Invalid Login");
+}
+
 $page->addLeftMenu();
 $page->showErrors();
 $page->addContent($pagecontent);
