@@ -39,8 +39,8 @@
 	 
 	 $username = $sql->sanitize($username);
 	 $email = $sql->sanitize($email);
-	 $pass1 = sha1($pass1);
-	 $pass2 = sha1($pass2);
+	 $pass1 = md5($pass1);
+	 $pass2 = md5($pass2);
 	 
 	 
 	 

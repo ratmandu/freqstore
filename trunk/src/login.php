@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
 	// Process the login.	
 	$username = $_POST['user'];
 	$password = $_POST['pass'];
-	$password = sha1($password);
+	$password = md5($password);
 	
 	$login = new login();
 	if ($login->process($username, $password)) {
