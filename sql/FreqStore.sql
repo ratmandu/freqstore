@@ -10,7 +10,7 @@ CREATE TABLE `users` (
 	PRIMARY KEY (`userid`)
 );
 	
-CREATE TABLE `freqencies` (
+CREATE TABLE `frequencies` (
 	`tableid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`userid` int(11) NOT NULL,
 	`tablename` varchar(255) NOT NULL,
@@ -26,6 +26,6 @@ CREATE TABLE `freqencies` (
 );
 
 INSERT INTO `users` (username, password, activated, userlevel)
-VALUES ('admin', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', '1', '9');
+VALUES ('admin', '5f4dcc3b5aa765d61d8327deb882cf99', '1', '9');
 
 	
