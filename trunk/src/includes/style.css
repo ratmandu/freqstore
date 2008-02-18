@@ -116,3 +116,10 @@ form input {
 	background-color: #205010;
 	border: 1px solid #0A0;
 }
+
+form select {
+	color: #00DB00;
+	background-color: #205010;
+	border: 1px solid #0A0;
+	width: 171px;
+}
