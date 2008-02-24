@@ -56,7 +56,7 @@ function setVarsForm(vars){
 function textBoxIt(objID) {
 	var field = document.getElementById(objID);
 	var content = field.innerHTML;
-	var length = content.length + 5;
+	var length = content.length + 2;
 	if (!boxed) {
 		field.innerHTML = "<input id='"+field.id+"' type='text' size='"+length+"' value='"+content+"' onfocus='this.select(); highLight(this);' onkeypress='textEvent(this, \""+field.id+"\", event);' onblur='update(this, \""+field.id+"\");'></input>";
 		boxed = true;
@@ -64,18 +64,48 @@ function textBoxIt(objID) {
 	field.firstChild.focus();
 }
 
-function update(input, field) {
+function shareBox(objID) {
+	var field = document.getElementById(objID);
+	var share = field.textContent;
+	if (!boxed) {
+		var xmlhttp = startXMLHttp();
+		xmlhttp.open("GET", 'dbupdate.php?generate=sharebox&share='+encodeURI(share), false);
+		xmlhttp.send("");
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			field.innerHTML = xmlhttp.responseText;
+			boxed = true;
+		}
+	field.firstChild.focus();
+	}
+}
+
+function update(input, field, share) {
 	var xmlhttp = startXMLHttp();
 	xmlhttp.open("GET", 'dbupdate.php?fieldname='+encodeURI(input.id)+'&content='+input.value+'&'+formVars, true);
 	xmlhttp.send("");
 	backToText(field);
-	refreshdb();
+	
+	if (share) {
+		refreshShare();
+	} else {
+		refreshdb();
+	}
+}
+
+function refreshShare() {
+	var xmlhttp = startXMLHttp();
+	var share = document.getElementById("share");
+	xmlhttp.open("GET", "userdb.php?nosharetemp=1&"+formVars, false);
+	xmlhttp.send("");
+	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+		share.innerHTML = xmlhttp.responseText;
+	}
 }
 
 function refreshdb() {
 	var xmlhttp = startXMLHttp();
 	var db = document.getElementById("table");
-	xmlhttp.open("GET", "userdb.php?&notemplate=1&"+formVars, false);
+	xmlhttp.open("GET", "userdb.php?notemplate=1&"+formVars, false);
 	xmlhttp.send("");
 	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 		db.innerHTML = xmlhttp.responseText;
@@ -105,6 +135,21 @@ function backToText(objID) {
 	field.parentNode.innerHTML = content;
 	boxed = false;
 	//alert(field.id + " " + content);
+}
+
+function stateSelect(objID) {
+	var field = document.getElementById(objID);
+	var state = field.innerHTML;
+	if (!boxed) {
+		var xmlhttp = startXMLHttp();
+		xmlhttp.open("GET", "dbupdate.php?generate=50sdd&selstate="+encodeURI(state), false);
+		xmlhttp.send("");
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			field.innerHTML = xmlhttp.responseText;
+			boxed = true;
+		}
+	field.firstChild.focus();
+	}
 }
 
 function highLight(field) {

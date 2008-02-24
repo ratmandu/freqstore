@@ -57,6 +57,18 @@ $description = unserialize($row['0']->description);
 $sharestatus = $row['0']->public;
 $sharecode = $row['0']->sharecode;
 
+if ($city == "") {
+	$city = "---";
+}
+
+if ($state == "") {
+	$state = "---";
+}
+
+if ($county == "") {
+	$county = "---";
+}
+
 // Make sure the database belongs to the user
 if ($tableuser != $userid) {
 	$page->addError("There was an error displaying the table to you.<br>\nPlease make sure you followed the correct link.", 1);
@@ -70,20 +82,48 @@ setVarsForm('dbid=$dbid');
 <center>
 	<table width="100%">
 		<tr>
-			<td align="center">Table Name: <b>$tablename</b><br>Number Of Chans: <b>$numchans</b></td>
-			<td align="center">City: <b>$city</b><br>
-								State: <b>$state</b><br>
-								County: <b>$county</b>
+			<td align="center">Table Name: <b><span id='name.0' onclick='textBoxIt("name.0");'>$tablename</span></b><br>Number Of Chans: <b>$numchans</b></td>
+			<td align="center">City: <b><span id='city.0' onclick='textBoxIt("city.0");'>$city</span></b><br>
+								State: <b><span id='state.0' onclick='stateSelect("state.0");'>$state</span></b><br>
+								County: <b><span id='county.0' onclick='textBoxIt("county.0");'>$county</span></b>
 			</td>
 		</tr>
 	</table>
 </center>
 HERE1;
 
+if ($sharestatus == "0") {
+	$sharestat = "<span class='shareoff'>Disabled</span>";
+	$sharelink = "";
+} elseif ($sharestatus == "1") {
+	$sharestat = "<span class='sharepriv'>Private</span>";
+	$sharelink = "<br />\n<input type='text' size='55' value='".SITE_URL."showdb.php?dbid=$dbid&unique=$sharecode'></input>";
+} elseif ($sharestatus == "2") {
+	$sharestat = "<span class='shareon'>Public</span>";
+	$sharelink = "<br />\n<input type='text' size='55' value='".SITE_URL."showdb.php?dbid=$dbid&unique=$sharecode'></input>";
+}
+
+if (!isset($_GET['nosharetemp'])) {
+	$sharebox .= "<div id='share'>\n";
+}
+
+$sharebox .= <<<HERE3
+<center>
+	Sharing: <b><span id='share.0' onclick='shareBox("share.0");'>$sharestat</span></b>
+	$sharelink
+</center>
+HERE3;
+
+if (isset($_GET['nosharetemp'])) {
+	echo $sharebox;
+	die();
+} else {
+	$sharebox .= "</div>\n";
+}
+								
 if (!isset($_GET['notemplate'])) {
 	$freqtable .= "<div id='table'>\n";
 }
-
 								
 $freqtable .= <<<HERE2
 <center>
@@ -145,6 +185,7 @@ $page->addLeftMenu();
 $page->showErrors();
 $page->showMessages();
 $page->addContent($infobox);
+$page->addContent($sharebox);
 $page->addContent($freqtable);
 $page->addFooter();
 $page->printPage();
