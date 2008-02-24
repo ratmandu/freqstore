@@ -1,6 +1,6 @@
 <?php
 /*
- * FreqStore - showdb.php
+ * FreqStore - userdb.php
  * Copyright (C) 2008 Justin Richards
  * Released under the GNU General Public License v3
  * 
@@ -23,14 +23,22 @@ require("includes/config.php");
 require("includes/functions.php");
 
 $sql = new sql();
-$page = new buildPage("Show Database");
+if (!isset($_GET['notemplate'])) {
+	$page = new buildPage("Show Database");
+}
 $login = new login();
+
+if (!$login->checkLogin()) {
+	header("Location: login.php");
+	die();
+}
 
 if (!isset($_GET['dbid']) | $_GET['dbid'] == "") {
 	$page->addError("There was an error retrieving the database.<br> Please check your link and try again.", 1);
 }
 
 $dbid = $_GET['dbid'];
+$userid = $_SESSION['userid'];
 
 // get info from database
 $row = $sql->query("SELECT * FROM frequencies WHERE tableid = '$dbid'");
@@ -49,8 +57,16 @@ $description = unserialize($row['0']->description);
 $sharestatus = $row['0']->public;
 $sharecode = $row['0']->sharecode;
 
+// Make sure the database belongs to the user
+if ($tableuser != $userid) {
+	$page->addError("There was an error displaying the table to you.<br>\nPlease make sure you followed the correct link.", 1);
+}
+
 // print results in nice table
 $infobox .= <<<HERE1
+<script type='text/javascript'>
+setVarsForm('dbid=$dbid');
+</script> 
 <center>
 	<table width="100%">
 		<tr>
@@ -64,7 +80,12 @@ $infobox .= <<<HERE1
 </center>
 HERE1;
 
-$freqtable = <<<HERE2
+if (!isset($_GET['notemplate'])) {
+	$freqtable .= "<div id='table'>\n";
+}
+
+								
+$freqtable .= <<<HERE2
 <center>
 	<table width="100%" cellpadding="2" cellspacing="0" class="solidborder">
 		<tr class="striped">
@@ -74,7 +95,7 @@ $freqtable = <<<HERE2
 			<td width="200"><b>Description</b></td>
 		</tr>\n
 HERE2;
-
+	
 $stripe = 0;
 
 for ($i = 0; $i < $numchans; $i++) {
@@ -89,30 +110,36 @@ for ($i = 0; $i < $numchans; $i++) {
 	$freqtable .= "<td>".($i+1)."</td>\n";
 	
 	if ($freqs[$i] == "") {
-		$freqtable .= "<td>---</td>\n";
+		$freqtable .= "<td><span id='f.$i' onclick='textBoxIt(\"f.$i\");'>---</span></td>\n";
 	} else {
-		$freqtable .= "<td>".$freqs[$i]."</td>\n";
+		$freqtable .= "<td><span id='f.$i' onclick='textBoxIt(\"f.$i\");'>".$freqs[$i]."</span></td>\n";
 	}
 	
 	if ($alphatag[$i] == "") {
-		$freqtable .= "<td>---</td>\n";
+		$freqtable .= "<td><span id='a.$i' onclick='textBoxIt(\"a.$i\");'>---</span></td>\n";
 	} else {
-		$freqtable .= "<td>".$alphatag[$i]."</td>\n";
+		$freqtable .= "<td><span id='a.$i' onclick='textBoxIt(\"a.$i\");'>".$alphatag[$i]."</span></td>\n";
 	}
 	
 	if ($description[$i] == "") {
-		$freqtable .= "<td>---</td>\n";
+		$freqtable .= "<td><span id='d.$i' onclick='textBoxIt(\"d.$i\");'>---</span></td>\n";
 	} else {
-		$freqtable .= "<td>".$description[$i]."</td>\n";
+		$freqtable .= "<td><span id='d.$i' onclick='textBoxIt(\"d.$i\");'>".$description[$i]."</span></td>\n";
 	}
 	
 	$freqtable .= "</tr>\n";
-	
-	
-	
 }
 
 $freqtable .= "</table>\n\t</center>";
+
+if (isset($_GET['notemplate'])) {
+	echo $freqtable;
+	die();
+}
+
+if (!isset($_GET['notemplate'])) {
+	$freqtable .= "</div>\n";
+}
 
 $page->addLeftMenu();
 $page->showErrors();
@@ -121,8 +148,5 @@ $page->addContent($infobox);
 $page->addContent($freqtable);
 $page->addFooter();
 $page->printPage();
-
-
-
 
 ?>
