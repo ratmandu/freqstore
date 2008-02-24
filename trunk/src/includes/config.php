@@ -21,6 +21,7 @@
 
 // Site Info
 define("SITE_NAME", "FreqStore");
+define("SITE_URL", "http://localhost/FreqStore");
  
 // database info
 define("DB_HOST", "hostname");
