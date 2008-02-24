@@ -69,7 +69,7 @@ if (isset($_POST['submit'])) {
 		header("Location: newdb.php?error=sqlerr");
 		die();
 	} else {
-		header("Location: showdb.php?dbid=$result");
+		header("Location: userdb.php?dbid=$result");
 	}
 	
 	
