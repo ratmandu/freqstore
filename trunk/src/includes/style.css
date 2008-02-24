@@ -111,15 +111,23 @@ a:hover {
 	border: 1px solid #0A0;
 }
 
-form input {
+input {
 	color: #00DB00;
 	background-color: #205010;
 	border: 1px solid #0A0;
 }
 
-form select {
+select {
 	color: #00DB00;
 	background-color: #205010;
 	border: 1px solid #0A0;
 	width: 171px;
+}
+
+.striped {
+	background-color: #296016;
+}
+
+.solidborder {
+	border: 1px solid #040;
 }
