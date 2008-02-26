@@ -78,7 +78,7 @@ a:hover {
 	margin-top: 10px;
 	width: 600px;
 	padding: 8px;
-	color: #600;
+	color: red;
 	text-align: center;
 	font-weight: bold;
 	font-size: 18;
@@ -130,4 +130,16 @@ select {
 
 .solidborder {
 	border: 1px solid #040;
+}
+
+.red {
+	color: red;
+}
+
+.yellow {
+	color: yellow;
+}
+
+.green {
+	color: #00DB00;
 }

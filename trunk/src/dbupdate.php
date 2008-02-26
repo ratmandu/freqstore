@@ -67,7 +67,7 @@ if (isset($_GET['generate']) && $_GET['generate'] == "50sdd") {
 	$values = array('0', '1', '2');
 	$names  = array('Disabled', 'Private', 'Public');
 	
-	echo "<select id='share.0' name='share' onchange='update(this, \"share.0\", 1)'>\n";
+	echo "<select id='share.0' name='share' onblur='update(this, \"share.0\", 1)' onchange='update(this, \"share.0\", 1)'>\n";
 	for ($i = 0; $i < count($names); $i++) {
 		echo "\t<option value='$values[$i]' ";
 		if ($names[$i] == $selected) {
@@ -164,6 +164,42 @@ switch ($type) {
 		}
 		break;
 	
+	case "delrow": // Delete a row
+		$rowid = $number;
+		// delete frequency
+		unset($freqs[$rowid]);
+		$freqs = serialize(array_values($freqs));
+		// delete alphatag
+		unset($alphatag[$rowid]);
+		$alphatag = serialize(array_values($alphatag));
+		// delete description
+		unset($description[$rowid]);
+		$description = serialize(array_values($description));
+		
+		$numchans--;
+		
+		// update the database
+		$row = $sql->insert("UPDATE frequencies SET frequency='$freqs', alphatag='$alphatag', description='$description', numchans='$numchans' WHERE tableid='$dbid' AND userid='$userid'");
+		break;
+	
+	case "insrow": // Insert a new row
+		$rowid = $number;
+		$rowid++;
+		array_splice($freqs, $rowid, 0, "");
+		array_splice($alphatag, $rowid, 0, "");
+		array_splice($description, $rowid, 0, "");
+		
+		$freqs = serialize($freqs);
+		$alphatag = serialize($alphatag);
+		$description = serialize($description);
+		
+		$numchans++;
+		
+		// update the database
+		if ($row = $sql->insert("UPDATE frequencies SET frequency='$freqs', alphatag='$alphatag', description='$description', numchans='$numchans' WHERE tableid='$dbid' AND userid='$userid'")) {
+			echo "1";
+		}
+		break;
 	
 }
 
