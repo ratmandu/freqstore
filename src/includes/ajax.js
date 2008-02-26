@@ -92,6 +92,32 @@ function update(input, field, share) {
 	}
 }
 
+function deleteRow(objID) {
+	if (confirm("Are you sure you want to delete that row")) {
+		var xmlhttp = startXMLHttp();
+		var obj = document.getElementById(objID);
+		xmlhttp.open("GET", 'dbupdate.php?fieldname=delrow.'+objID+'&'+formVars, false);
+		xmlhttp.send("");
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			obj.style.display = "none";
+		}
+		refreshdb();
+		refreshShare();
+	}
+}
+
+function insertRow(afterrow) {
+	var xmlhttp = startXMLHttp();
+	xmlhttp.open("GET", "dbupdate.php?fieldname=insrow."+afterrow+"&"+formVars, false);
+	xmlhttp.send("");
+	if (xmlhttp.readystate == 4 && xmlhttp.status == 200) {
+		//alert(xmlhttp.responseText);
+	}
+	
+	refreshdb();
+	refreshShare();
+}
+
 function refreshShare() {
 	var xmlhttp = startXMLHttp();
 	var share = document.getElementById("share");

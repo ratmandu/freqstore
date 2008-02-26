@@ -34,7 +34,6 @@ $dbid = $_GET['dbid'];
 
 // get info from database
 $row = $sql->query("SELECT * FROM frequencies WHERE tableid = '$dbid'");
-
 $tableuser = $row['0']->userid;
 $tablename = $row['0']->tablename;
 $location = unserialize($row['0']->location);
@@ -48,13 +47,23 @@ $alphatag = unserialize($row['0']->alphatag);
 $description = unserialize($row['0']->description);
 $sharestatus = $row['0']->public;
 $sharecode = $row['0']->sharecode;
+$urlcode = $_GET['unique'];
+
+// make sure that the database is shared, and that the code provided matches the one in the database
+if (($urlcode != $sharecode) | ($sharestatus == "0")) {
+	$page->addError("The database you attempted to view is either private, or you followed a bad link.<br>Please check the link and try again", true);
+}
+
+// get owners username
+$row2 = $sql->query("SELECT * FROM users WHERE userid = '$tableuser'");
+$username = $row2['0']->username;
 
 // print results in nice table
 $infobox .= <<<HERE1
 <center>
 	<table width="100%">
 		<tr>
-			<td align="center">Table Name: <b>$tablename</b><br>Number Of Chans: <b>$numchans</b></td>
+			<td align="center">Table Name: <b>$tablename</b><br>Owner: <b>$username</b></td>
 			<td align="center">City: <b>$city</b><br>
 								State: <b>$state</b><br>
 								County: <b>$county</b>

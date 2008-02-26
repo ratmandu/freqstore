@@ -24,7 +24,7 @@ require("includes/functions.php");
 
 $sql = new sql();
 if (!isset($_GET['notemplate'])) {
-	$page = new buildPage("Show Database");
+	$page = new buildPage("Edit Database");
 }
 $login = new login();
 
@@ -82,7 +82,7 @@ setVarsForm('dbid=$dbid');
 <center>
 	<table width="100%">
 		<tr>
-			<td align="center">Table Name: <b><span id='name.0' onclick='textBoxIt("name.0");'>$tablename</span></b><br>Number Of Chans: <b>$numchans</b></td>
+			<td align="center">Table Name: <b><span id='name.0' onclick='textBoxIt("name.0");'>$tablename</span></b></td>
 			<td align="center">City: <b><span id='city.0' onclick='textBoxIt("city.0");'>$city</span></b><br>
 								State: <b><span id='state.0' onclick='stateSelect("state.0");'>$state</span></b><br>
 								County: <b><span id='county.0' onclick='textBoxIt("county.0");'>$county</span></b>
@@ -93,13 +93,13 @@ setVarsForm('dbid=$dbid');
 HERE1;
 
 if ($sharestatus == "0") {
-	$sharestat = "<span class='shareoff'>Disabled</span>";
+	$sharestat = "<span class='red'>Disabled</span>";
 	$sharelink = "";
 } elseif ($sharestatus == "1") {
-	$sharestat = "<span class='sharepriv'>Private</span>";
+	$sharestat = "<span class='yellow'>Private</span>";
 	$sharelink = "<br />\n<input type='text' size='55' value='".SITE_URL."showdb.php?dbid=$dbid&unique=$sharecode'></input>";
 } elseif ($sharestatus == "2") {
-	$sharestat = "<span class='shareon'>Public</span>";
+	$sharestat = "<span class='green'>Public</span>";
 	$sharelink = "<br />\n<input type='text' size='55' value='".SITE_URL."showdb.php?dbid=$dbid&unique=$sharecode'></input>";
 }
 
@@ -133,6 +133,7 @@ $freqtable .= <<<HERE2
 			<td width="120"><b>Frequency</b></td>
 			<td width="200"><b>Alpha Tag</b></td>
 			<td width="200"><b>Description</b></td>
+			<td width="120"><b>Insert / Delete</b></td>
 		</tr>\n
 HERE2;
 	
@@ -140,10 +141,10 @@ $stripe = 0;
 
 for ($i = 0; $i < $numchans; $i++) {
 	if ($stripe) {
-		$freqtable .= "<tr class=\"striped\">\n";
+		$freqtable .= "<tr id='$i' class=\"striped\">\n";
 		$stripe = 0;
 	} else {
-		$freqtable .= "<tr>\n";
+		$freqtable .= "<tr id='$i'>\n";
 		$stripe = 1;
 	}
 	
@@ -166,6 +167,8 @@ for ($i = 0; $i < $numchans; $i++) {
 	} else {
 		$freqtable .= "<td><span id='d.$i' onclick='textBoxIt(\"d.$i\");'>".$description[$i]."</span></td>\n";
 	}
+	
+	$freqtable .= "<td><span title='Insert Row After' onclick=\"insertRow('$i')\">Insert</span> / <span title='Click To Delete' onclick=\"deleteRow('$i')\">Delete</span></td>\n";
 	
 	$freqtable .= "</tr>\n";
 }

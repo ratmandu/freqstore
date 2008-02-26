@@ -39,6 +39,7 @@ if (isset($_POST['submit'])) {
 	$state = $sql->sanitize($_POST['state']);
 	$county = $sql->sanitize($_POST['county']);
 	$userid = $_SESSION['userid'];
+	$unique = md5(date("U"));
 	
 	// check to make sure the tablename and number of channels was entered
 	if (!($tablename) || !($numchans)) {
@@ -63,7 +64,7 @@ if (isset($_POST['submit'])) {
 	$location = array($city, $state, $county);
 	$location = serialize($location);
 	
-	$result = $sql->insert("INSERT INTO frequencies(userid, tablename, location, numchans, frequency, alphatag, description) VALUES('$userid', '$tablename', '$location', '$numchans', '$freqs', '$alphatag', '$description')");
+	$result = $sql->insert("INSERT INTO frequencies(userid, tablename, location, numchans, frequency, alphatag, description, sharecode) VALUES('$userid', '$tablename', '$location', '$numchans', '$freqs', '$alphatag', '$description', '$unique')");
 	
 	if (!$result) {
 		header("Location: newdb.php?error=sqlerr");

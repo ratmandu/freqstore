@@ -95,6 +95,7 @@ class buildPage {
 	<li><a href='index.php'>Home</a></li>
 	";
 		if ($loggedin) {
+			$this->pagetext .= "<li><a href='newdb.php'>New Database</a></li>\n";
 			$this->pagetext .= "<li><a href='userdblist.php'>Your Databases</a></li>\n";
 			$this->pagetext .= "<li><a href='logout.php'>Log Out</a></li>\n";
 		} else {
