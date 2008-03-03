@@ -35,6 +35,9 @@ if (isset($_GET['loggedout'])) {
 	$page->addMessage("You were logged out sucessfully!");
 }
 
+$pagecontent = <<<HERE1
+HERE1;
+
 $page->addLeftMenu();
 $page->showErrors();
 $page->showMessages();
